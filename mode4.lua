@@ -53,7 +53,12 @@ function courseplay:handle_mode4(self, allowedToDrive, workSpeed, refSpeed)
 		if self.cp.previousWaypointIndex == self.cp.abortWork and seederFillLevelPct ~= 0 and sprayerFillLevelPct ~= 0 then
 			courseplay:setWaypointIndex(self, self.cp.abortWork + 2);
 		end
-		if self.cp.previousWaypointIndex < self.cp.stopWork and self.cp.previousWaypointIndex > self.cp.abortWork + 9 + self.cp.abortWorkExtraMoveBack then
+		local offset = 9;
+		if self.cp.hasSowingMachine then
+			offset = 8;
+		end;
+		if self.cp.previousWaypointIndex < self.cp.stopWork and self.cp.previousWaypointIndex > self.cp.abortWork + offset + self.cp.abortWorkExtraMoveBack then
+
 			self.cp.abortWork = nil;
 		end
 	end
@@ -140,9 +145,9 @@ function courseplay:handle_mode4(self, allowedToDrive, workSpeed, refSpeed)
 								if workTool.ridgeMarkers and #workTool.ridgeMarkers > 0 and workTool.setRidgeMarkerState ~= nil and workTool.ridgeMarkerState ~= ridgeMarker then
 									workTool:setRidgeMarkerState(ridgeMarker);
 								end;
-							elseif workTool.ridgeMarkers and #workTool.ridgeMarkers > 0 and workTool.setRidgeMarkerState ~= nil and workTool.ridgeMarkerState ~= 0 then
-								workTool:setRidgeMarkerState(0);
 							end;
+						elseif workTool.ridgeMarkers and #workTool.ridgeMarkers > 0 and workTool.setRidgeMarkerState ~= nil and workTool.ridgeMarkerState ~= 0 then
+							workTool:setRidgeMarkerState(0);
 						end;
 
 						--lower/raise
